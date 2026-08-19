@@ -23,6 +23,7 @@ services:
       DB_PASSWORD: "${POSTGRES_PASSWORD}"
       REDIS_HOST: redis
       REDIS_PORT: "6379"
+      REDIS_CACHE_CONNECTION: cache
       CACHE_STORE: redis
       QUEUE_CONNECTION: redis
       MAIL_MAILER: smtp
