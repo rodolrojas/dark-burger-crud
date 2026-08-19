@@ -1,10 +1,13 @@
 services:
   app:
-    image: shinsenter/laravel:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: dark-burger-crud-app
     ports:
       - "${APP_PORT:-8080}:80"
       - "${APP_HTTPS_PORT:-8443}:443"
+      - "${APP_FRONTEND_PORT:-5173}:5173"
     environment:
       APP_NAME: "${APP_NAME}"
       APP_ENV: "${APP_ENV}"
@@ -33,7 +36,7 @@ services:
       LARAVEL_QUEUE_WORKER_OPTIONS: "${LARAVEL_QUEUE_WORKER_OPTIONS}"
       LARAVEL_ENABLE_SCHEDULER: "${LARAVEL_ENABLE_SCHEDULER}"
     volumes:
-      - ./app:/var/www/html
+      - ./src:/var/www/html
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,7 +45,7 @@ services:
       mailpit:
         condition: service_started
     networks:
-      - dark-burger-crud
+      - dark-burger
 
   postgres:
     image: postgres:16-alpine
@@ -61,7 +64,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - dark-burger-crud
+      - dark-burger
 
   redis:
     image: redis:7-alpine
@@ -77,7 +80,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - dark-burger-crud
+      - dark-burger
 
   mailpit:
     image: axllent/mailpit:v1.20
@@ -86,13 +89,13 @@ services:
       - "${MAILPIT_UI_PORT:-8025}:8025"
       - "${MAILPIT_SMTP_PORT:-1025}:1025"
     networks:
-      - dark-burger-crud
+      - dark-burger
 
 volumes:
   postgres-data:
   redis-data:
 
 networks:
-  dark-burger-crud:
-    name: dark-burger-crud
+  dark-burger:
+    name: dark-burger
     driver: bridge
