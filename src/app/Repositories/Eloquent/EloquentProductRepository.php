@@ -5,18 +5,18 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\ProductRepository;
 use App\Models\Product;
 use App\Models\ProductVariant;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class EloquentProductRepository implements ProductRepository
 {
-    public function activeCatalog(): Collection
+    public function activeCatalog(int $perPage = 10, bool $nested): LengthAwarePaginator
     {
         return Product::query()
             ->active()
-            ->with(['variants' => fn ($query) => $query->active()->orderBy('price')->orderBy('name')])
+            ->with($nested ? ['variants' => fn ($query) => $query->active()->orderBy('price')->orderBy('name')] : [])
             ->orderBy('name')
-            ->get();
+            ->paginate($perPage);
     }
 
     public function findBySlug(string $slug): ?Product

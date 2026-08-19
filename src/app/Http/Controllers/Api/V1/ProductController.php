@@ -15,7 +15,9 @@ class ProductController extends Controller
 
     public function index(): JsonResponse
     {
-        return ProductResource::collection($this->products->activeCatalog())->response();
+        $perPage = (int) request()->query('per_page', 10);
+        $nested = false;
+        return ProductResource::collection($this->products->activeCatalog($perPage, $nested))->response();
     }
 
     public function show(string $slug): ProductResource|JsonResponse

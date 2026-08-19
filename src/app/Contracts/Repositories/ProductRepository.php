@@ -3,11 +3,11 @@
 namespace App\Contracts\Repositories;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductRepository
 {
-    public function activeCatalog(): Collection;
+    public function activeCatalog(int $perPage, bool $nested): LengthAwarePaginator;
 
     public function findBySlug(string $slug): ?Product;
 
