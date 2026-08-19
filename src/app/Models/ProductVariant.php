@@ -17,11 +17,13 @@ class ProductVariant extends Model
         'sku',
         'price',
         'active',
+        'is_default',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'active' => 'boolean',
+        'is_default' => 'boolean',
     ];
 
     public function product(): BelongsTo
