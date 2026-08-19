@@ -18,15 +18,15 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-5xl gap-6 p-4">
         <div className="mr-5">🍔 Dark Burger Co.</div>
         <Link to="/" className={linkClassNames}>
-          Inicio
+          Home
         </Link>
 
         <Link to="/about" className={linkClassNames}>
-          Acerca de
+          About
         </Link>
 
         <Link to="/products" className={linkClassNames}>
-          Productos
+          Products
         </Link>
       </div>
     </nav>
